@@ -8,11 +8,17 @@ BIN := $(BUILD)/bin
 COMMON_SRC := \
 	src/common/ipc.c \
 	src/common/ringbuf.c \
-	src/common/sync.c
+	src/common/sync.c \
+	src/common/queue.c \
+	src/common/stats.c
 
 
 PRODUCER_SRC := src/producer/producer.c
-AGGREGATOR_SRC := src/aggregator/aggregator.c
+AGGREGATOR_SRC := \
+    src/aggregator/aggregator.c \
+    src/aggregator/reader.c \
+    src/aggregator/worker.c \
+	src/aggregator/stats_thread.c
 
 COMMON_OBJ := $(COMMON_SRC:src/%.c=$(BUILD)/%.o)
 PRODUCER_OBJ := $(PRODUCER_SRC:src/%.c=$(BUILD)/%.o)
