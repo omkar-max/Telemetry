@@ -1,4 +1,4 @@
-Telemetry Pipeline – Design Notes
+Telemetry Pipeline
 
 1. Motivation
 
