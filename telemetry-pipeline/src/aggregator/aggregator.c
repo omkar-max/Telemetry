@@ -8,6 +8,7 @@
 
 #include "reader.h"
 #include "worker.h"
+#include "logger.h"
 #include "stats_thread.h"
 
 #define INTERNAL_Q_CAP 512
@@ -47,6 +48,11 @@ int main(void)
     }
     // printf("stats initialized\n");
     // fflush(stdout);
+    logger_t logger;
+    if (!logger_init(&logger, "telemetry.csv")) {
+        printf("Aggregator: logger_init failed\n");
+        return 1;
+    }
 
     pthread_t reader_tid;
     reader_ctx_t rctx = {
@@ -70,6 +76,7 @@ int main(void)
         wctx[i].q = &q;
         wctx[i].stats = &stats;
         wctx[i].worker_id = i;
+        wctx[i].logger = &logger;
 
         if (pthread_create(&worker_tids[i], NULL, worker_thread, &wctx[i]) != 0) {
             printf("Aggregator: failed to create worker thread %d\n", i);
@@ -102,6 +109,7 @@ int main(void)
 
     queue_destroy(&q);
     stats_destroy(&stats);
+    logger_destroy(&logger);
     sems_close(&sems);
     shm_unmap(rb);
 

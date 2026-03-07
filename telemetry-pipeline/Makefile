@@ -10,7 +10,8 @@ COMMON_SRC := \
 	src/common/ringbuf.c \
 	src/common/sync.c \
 	src/common/queue.c \
-	src/common/stats.c
+	src/common/stats.c \
+	src/common/logger.c
 
 
 PRODUCER_SRC := src/producer/producer.c
